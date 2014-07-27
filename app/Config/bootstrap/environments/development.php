@@ -9,5 +9,6 @@
         'MYSQL_PREFIX'   => '',                    // (7)
     ], function() {
         CakePlugin::load('Bdd');
+CakePlugin::load('Fabricate'); 
     });
 
