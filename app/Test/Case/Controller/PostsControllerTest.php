@@ -1,5 +1,6 @@
 <?php
 App::uses('PostsController', 'Controller');
+App::uses('Fabricate', 'Fabricate.Lib');    // 追加
 
 /**
  * PostsController Test Case
@@ -26,13 +27,11 @@ class PostsControllerTest extends ControllerTestCase {
             $this->controller->autoRender = false;		// (7) 自動でrenderしないようにする
         }
         public function testIndexアクションではページングの結果がpostsにセットされること() {
-            $data = [
-                ['Posts'=>['id'=>1,'title'=>'Title1','body'=>'Body1']],
-            ];
-            $this->controller->Paginator->expects($this->once())	// (8) paginateメソッドをモック
-                ->method('paginate')->will($this->returnValue($data));
-            $vars = $this->testAction('/user/blog', ['method'=>'get', 'return'=>'vars']); // (9) テスト実行
-            $this->assertEquals($data, $vars['posts']);
+            $post = Fabricate::build('Post');   // 変更1
+            $this->controller->Paginator->expects($this->once())
+                ->method('paginate')->will($this->returnValue($post->data));  // 変更2
+            $vars = $this->testAction('/user/blog', ['method'=>'get', 'return'=>'vars']);
+            $this->assertEquals($post->data, $vars['posts']);  // 変更2
         }
         public function testAddアクションで保存が失敗したときメッセージがセットされること() {
             $this->controller->Post->expects($this->once())		// (10) 保存が失敗したことにする
