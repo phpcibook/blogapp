@@ -1,5 +1,11 @@
 <?php
 // features/support/hooks.php
+App::uses('CakeTestCase', 'TestSuite');
+class BddAllFixture extends CakeTestCase { // (1)
+    public $fixtures = [
+        'app.post'
+    ];
+}
 
 $hooks->beforeSuite(function($event) {
     // Do something before whole test suite
@@ -15,10 +21,13 @@ $hooks->afterFeature('', function($event) {
     // do something after each feature
 });
 
-$hooks->beforeScenario('', function($event) {
+$hooks->beforeScenario('', function($event) { // (2)
     // do something before each scenario
+    $manager = new CakeFixtureManager();
+    $fixture = new BddAllFixture();
+    $manager->fixturize($fixture);
+    $manager->load($fixture);
 });
 $hooks->afterScenario('', function($event) {
     // do something after each scenario
 });
-
