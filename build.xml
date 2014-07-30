@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Phing build config file.
+    @link http://www.phing.info/
+-->
+<project name="blogapp" default="build">
+    <!-- Properties -->
+    <property name="basedir" value="${phing.dir}" />
+    <property name="appdir" value="${basedir}/app" />
+    <property name="logdir" value="${appdir}/tmp/logs" />
+
+    <!-- Build(1) -->
+    <target name="build" depends="prepare,caketest"/>
+
+    <!-- Prepare(2) -->
+    <target name="prepare" description="Prepare for build">
+        <exec dir="${appdir}" executable="${appdir}/Console/cake" output="${logdir}/migration.log" checkreturn="true">
+            <arg line="migrations.migration" />
+            <arg line="run" />
+            <arg line="all" />
+        </exec>
+    </target>
+
+    <!-- CakePHP unit test with PHPUnit(3) -->
+    <target name="caketest" description="Run CakePHP unit tests with PHPUnit">
+        <exec dir="${appdir}" executable="${appdir}/Console/cake" output="${logdir}/caketest.log" checkreturn="true">
+            <arg line="test" />
+            <arg line="app" />
+            <arg line="AllTests" />
+        </exec>
+    </target>
+</project>
