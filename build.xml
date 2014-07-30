@@ -10,7 +10,7 @@
     <property name="logdir" value="${appdir}/tmp/logs" />
 
     <!-- Build(1) -->
-    <target name="build" depends="prepare,caketest"/>
+    <target name="build" depends="prepare,caketest,behat"/>
 
     <!-- Prepare(2) -->
     <target name="prepare" description="Prepare for build">
