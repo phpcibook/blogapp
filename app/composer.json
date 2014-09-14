@@ -1,0 +1,16 @@
+{
+    "name": "phpcibook/blogapp",
+    "authors": [
+        {
+            "name": "Kaz Watanabe",
+            "email": "kaz@decr.jp"
+        }
+    ],
+    "config": {
+    	"vendor-dir": "Vendor"
+    },
+    "require": {
+        "cakephp/cakephp": "2.5.*",
+        "josegonzalez/cakephp-environments": "1.0.0"
+    }
+}
