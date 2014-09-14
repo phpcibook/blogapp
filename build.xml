@@ -25,6 +25,9 @@
     <target name="caketest" description="Run CakePHP unit tests with PHPUnit">
         <exec dir="${appdir}" executable="${appdir}/Console/cake" output="${logdir}/caketest.log" checkreturn="true">
             <arg line="test" />
+            <arg line="--log-junit=${appdir}/reports/unittest.xml" />
+            <arg line="--coverage-html=${appdir}/reports" />
+            <arg line="--coverage-clover=${appdir}/reports/coverage.xml" />
             <arg line="app" />
             <arg line="AllTests" />
         </exec>
