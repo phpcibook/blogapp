@@ -24,6 +24,7 @@
        "pear/console_commandline": "@dev",
        "pear/pear_exception": "@dev",
         "sizuhiko/Bdd": "dev-master",
-        "behat/mink-goutte-driver": "*"
+        "behat/mink-goutte-driver": "*",
+        "sizuhiko/fabricate": "1.*"
    }
 }
