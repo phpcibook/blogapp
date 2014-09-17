@@ -10,7 +10,7 @@
     <property name="logdir" value="${appdir}/tmp/logs" />
 
     <!-- Build(1) -->
-    <target name="build" depends="prepare,caketest"/>
+    <target name="build" depends="prepare,caketest,behat"/>
 
     <!-- Prepare(2) -->
     <target name="prepare" description="Prepare for build">
@@ -31,5 +31,14 @@
             <arg line="app" />
             <arg line="AllTests" />
         </exec>
+    </target>
+    <!-- CakePHP acceptance test with Behat -->
+    <target name="behat" description="Run CakePHP acceptance test with Behat">
+           <exec command="find ${appdir}/tmp -type d -print | xargs chmod 777" escape="false" />
+           <exec dir="${appdir}" executable="${appdir}/Console/cake" output="${logdir}/behat.log" checkreturn="true">
+               <arg line="Bdd.story" />
+               <arg line="--format=junit" />
+               <arg line="--out=${appdir}/reports" />
+           </exec>
     </target>
 </project>
