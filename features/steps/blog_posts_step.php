@@ -9,9 +9,9 @@ $steps->Given('/^"([^"]*)" としてログインしている$/', function($world
 
 	return [
 		new Given('"' . Router::url(['controller' => 'app_users', 'action' => 'login']) . '" を表示している'),
-		new When('"Email" フィールドに "' . $user['email'] . '" と入力する'),
-		new When('"Password" フィールドに "' . $user['password'] . '" と入力する'),
-		new When('"Submit" ボタンをクリックする'),
+		new When('"Eメール" フィールドに "' . $user['email'] . '" と入力する'),
+		new When('"パスワード" フィールドに "' . $user['password'] . '" と入力する'),
+		new When('"ログイン" ボタンをクリックする'),
 	];
 });
 
