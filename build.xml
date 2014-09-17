@@ -8,9 +8,10 @@
     <property name="basedir" value="${phing.dir}" />
     <property name="appdir" value="${basedir}/app" />
     <property name="logdir" value="${appdir}/tmp/logs" />
+    <property name="vendorbindir" value="${appdir}/Vendor/bin" />
 
     <!-- Build(1) -->
-    <target name="build" depends="prepare,caketest,behat"/>
+    <target name="build" depends="prepare,caketest,behat,phpcs,phpmd,phpcpd"/>
 
     <!-- Prepare(2) -->
     <target name="prepare" description="Prepare for build">
@@ -40,5 +41,44 @@
                <arg line="--format=junit" />
                <arg line="--out=${appdir}/reports" />
            </exec>
+    </target>
+
+    <!-- PHPCodeSniffer -->
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer.">
+        <exec dir="${basedir}" executable="${vendorbindir}/phpcs" output="${logdir}/phpcs.log">
+            <arg line="--config-set" />
+            <arg line="installed_paths" />
+            <arg line="${appdir}/Vendor/cakephp/cakephp-codesniffer" />
+        </exec>
+        <exec dir="${basedir}" executable="${vendorbindir}/phpcs" output="${logdir}/phpcs.log">
+            <arg line="--ignore=Test,Vendor,Plugin" />
+            <arg line="--report=checkstyle" />
+            <arg line="--report-checkstyle=${appdir}/reports/checkstyle.xml" />
+            <arg line="--standard=CakePHP" />
+            <arg line="--extensions=php" />
+            <arg line="${appdir}" />
+        </exec>
+    </target>
+
+    <!-- PHPMD -->
+    <target name="phpmd" description="Perform project mess detection using PHPMD">
+        <exec dir="${basedir}" executable="${vendorbindir}/phpmd" output="${logdir}/phpmd.log">
+            <arg line="${appdir}" />
+            <arg line="xml" />
+            <arg line="codesize,unusedcode,design,naming" />
+            <arg line="--exclude ${appdir}/Test,${appdir}/Vendor,${appdir}/Plugin" />
+            <arg line="--reportfile ${appdir}/reports/phpmd.xml" />
+        </exec>
+    </target>
+    <!-- PHPCPD -->
+    <target name="phpcpd" description="Perform project mess detection using PHPMD">
+        <exec dir="${basedir}" executable="${vendorbindir}/phpcpd" output="${logdir}/phpcpd.log">
+            <arg line="--exclude Vendor" />
+            <arg line="--exclude Plugin" />
+            <arg line="--exclude webroot" />
+            <arg line="--log-pmd ${appdir}/reports/phpcpd.xml" />
+            <arg line="--names *.php,*.cpt" />
+            <arg line="${appdir}" />
+        </exec>
     </target>
 </project>
