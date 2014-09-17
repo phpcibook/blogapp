@@ -38,4 +38,24 @@ class Post extends AppModel {
 			],
 		],
 	];
+
+	public $actsAs = ['Containable'];
+
+	public $recursive = -1;
+
+	public $belongsTo = [
+		'Author' => [
+			'className' => 'Users.User',
+			'foreignKey' => 'author_id'
+		]
+	];
+
+	public function getPaginateSettings($username) {
+		return [
+			'limit' => 5,
+			'order' => ['Post.id' => 'desc'],
+			'contain' => ['Author'],
+			'conditions' => ['Author.username' => $username],
+		];
+	}
 }
