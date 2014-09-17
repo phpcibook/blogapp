@@ -20,7 +20,7 @@ class PostsControllerTest extends ControllerTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->controller = $this->generate('Posts', [
-			'components' => ['Paginator', 'Session'],
+			'components' => ['Paginator', 'Session', 'Auth'],
 			'models' => ['Post' => ['save']],
 			'methods' => ['redirect']
 		]);
@@ -36,6 +36,8 @@ class PostsControllerTest extends ControllerTestCase {
 	}
 
 	public function testAddアクションで保存が失敗したときメッセージがセットされること() {
+		$this->controller->Auth->expects($this->any())
+			->method('loggedIn')->will($this->returnValue(true));
 		$this->controller->Post->expects($this->once())
 			->method('save')->will($this->returnValue(false));
 		$this->controller->Session->expects($this->once())
@@ -45,13 +47,16 @@ class PostsControllerTest extends ControllerTestCase {
 	}
 
 	public function testAddアクションで保存が成功したときはメッセージがセットされ一覧表示にリダイレクトされること() {
+		$this->controller->Auth->expects($this->any())
+			->method('loggedIn')->will($this->returnValue(true));
+		$this->controller->Auth->staticExpects($this->any())
+			->method('user')->will($this->returnValue(['id' => '1', 'username' => 'user1']));
 		$this->controller->Post->expects($this->once())
 			->method('save')->will($this->returnValue(true));
 		$this->controller->Session->expects($this->once())
 			->method('setFlash')->with($this->equalTo('新しい記事を受け付けました。'));
 		$this->controller->expects($this->once())
-			->method('redirect')->with($this->equalTo(['action' => 'index']));
-
+			->method('redirect')->with($this->equalTo(['action' => 'index', 'user_account' => 'user1']));
 		$this->testAction('/blogs/new', ['method' => 'post', 'data' => ['title' => 'Title1', 'body' => 'Body1']]);
 	}
 
