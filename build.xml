@@ -11,7 +11,7 @@
     <property name="vendorbindir" value="${appdir}/Vendor/bin" />
 
     <!-- Build(1) -->
-    <target name="build" depends="prepare,caketest,behat,phpcs,phpmd,phpcpd"/>
+    <target name="build" depends="prepare,caketest,behat,phpcs,phpmd,phpcpd,phpdoc"/>
 
     <!-- Prepare(2) -->
     <target name="prepare" description="Prepare for build">
@@ -70,6 +70,7 @@
             <arg line="--reportfile ${appdir}/reports/phpmd.xml" />
         </exec>
     </target>
+
     <!-- PHPCPD -->
     <target name="phpcpd" description="Perform project mess detection using PHPMD">
         <exec dir="${basedir}" executable="${vendorbindir}/phpcpd" output="${logdir}/phpcpd.log">
@@ -81,4 +82,16 @@
             <arg line="${appdir}" />
         </exec>
     </target>
+
+   <!-- phpdoc -->
+   <target name="phpdoc" description="Generate Application Documentation using phpDocumentor">
+       <exec dir="${basedir}" executable="phpdoc" output="${logdir}/phpdoc.log" checkreturn="true">
+           <arg line="run" />
+           <arg line="-t ${appdir}/reports/doc" />
+           <arg line="-d ${appdir}/" />
+           <arg line="-e php" />
+           <arg line="-i ${appdir}/Vendor/,${appdir}/Plugin/,${appdir}/Test/,${appdir}/Config/" />
+           <arg line="-p" />
+       </exec>
+   </target>
 </project>
