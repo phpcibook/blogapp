@@ -66,7 +66,7 @@
             <arg line="${appdir}" />
             <arg line="xml" />
             <arg line="codesize,unusedcode,design,naming" />
-            <arg line="--exclude ${appdir}/Test,${appdir}/Vendor,${appdir}/Plugin" />
+            <arg line="--exclude ${appdir}/Test,${appdir}/Vendor,${appdir}/Plugin,${appdir}/Config/Migration,${appdir}/Config/Schema" />
             <arg line="--reportfile ${appdir}/reports/phpmd.xml" />
         </exec>
     </target>
