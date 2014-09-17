@@ -5,6 +5,8 @@ class RoutesTest extends CakeTestCase {
 		return [
 			['新規投稿', '/blogs/new', ['controller' => 'posts', 'action' => 'add']],
 			['記事一覧', '/hoge/blog', ['controller' => 'posts', 'action' => 'index', 'user_account' => 'hoge']],
+			['ログイン', '/users/login', ['controller' => 'app_users', 'action' => 'login']],
+			['ログアウト', '/users/logout', ['controller' => 'app_users', 'action' => 'logout']],
 		];
 	}
 

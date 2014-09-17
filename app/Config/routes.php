@@ -12,7 +12,9 @@
  */
 
 	Router::connect('/blogs/new', ['controller' => 'posts', 'action' => 'add']);
-	Router::connect('/:user_account/blog', ['controller' => 'posts', 'action' => 'index'], ['user_account']);
+	Router::connect('/:user_account/blog/*', ['controller' => 'posts', 'action' => 'index'], ['user_account']);
+	Router::connect('/users/login', array('controller' => 'app_users', 'action' => 'login'));
+	Router::connect('/users/logout', array('controller' => 'app_users', 'action' => 'logout'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

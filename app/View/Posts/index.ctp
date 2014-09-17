@@ -17,10 +17,10 @@
 <?php endforeach; ?>
 <ul class="pagination">
     <?php
-        echo $this->Paginator->prev('&laquo;', ['escape'=>false, 'tag'=>'li'], null, 
+        echo $this->Paginator->prev('&laquo;', ['escape'=>false, 'tag'=>'li', 'url'=>['controller'=>'posts', 'action'=>'index','user_account'=>$this->request->user_account]], null, 
             ['class' => 'prev disabled', 'escape'=>false, 'tag'=>'li', 'disabledTag'=>'a']);
-        echo $this->Paginator->numbers(['separator' => '', 'tag'=>'li', 'currentTag'=>'a', 'currentClass'=>'active']);
-        echo $this->Paginator->next('&raquo;', ['escape'=>false, 'tag'=>'li'], null, 
+        echo $this->Paginator->numbers(['separator' => '', 'tag'=>'li', 'currentTag'=>'a', 'currentClass'=>'active', 'url'=>['controller'=>'posts', 'action'=>'index','user_account'=>$this->request->user_account]]);
+        echo $this->Paginator->next('&raquo;', ['escape'=>false, 'tag'=>'li', 'url'=>['controller'=>'posts', 'action'=>'index','user_account'=>$this->request->user_account]], null, 
             ['class' => 'next disabled', 'escape'=>false, 'tag'=>'li', 'disabledTag'=>'a']);
     ?>
 </ul>

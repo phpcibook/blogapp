@@ -10,4 +10,5 @@ Environment::configure('test', false, [
 ], function() {
 	CakePlugin::load('Bdd');
 	CakePlugin::load('Fabricate');
+	Configure::write('app.disableValidatePost', true);
 });

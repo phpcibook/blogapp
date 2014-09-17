@@ -4,25 +4,32 @@ use Behat\Behat\Context\Step\Given,
 	Behat\Behat\Context\Step\Then;
 App::uses('Fabricate', 'Fabricate.Lib');
 
-$steps->Given('/^"([^"]*)" としてログインしている$/', function($world, $user) {
+$steps->Given('/^"([^"]*)" としてログインしている$/', function($world, $username) {
+	$user = $world->getUser($username);
+
+	return [
+		new Given('"' . Router::url(['controller' => 'app_users', 'action' => 'login']) . '" を表示している'),
+		new When('"Email" フィールドに "' . $user['email'] . '" と入力する'),
+		new When('"Password" フィールドに "' . $user['password'] . '" と入力する'),
+		new When('"Submit" ボタンをクリックする'),
+	];
 });
 
-$steps->Given('/^記事が (\d+) 件登録されている$/', function($world, $num) {
-	Fabricate::create('Post', $num, function($data, $world) {
+$steps->Given('/^"([^"]*)" の記事が (\d+) 件登録されている$/', function($world, $username, $num) {
+	$user = $world->getUser($username);
+	Fabricate::create('Post', $num, function($data, $world) use($user) {
 		return [
-			'title' => $world->sequence(
-				'title',
-				function($i) {
-					return "タイトル{$i}";
-				}
-			)
+			'title' => $world->sequence('title', function($i) {
+				return "タイトル{$i}";
+			}),
+			'author_id' => $user['id'],
 		];
 	});
 });
 
 $steps->When('/^自分の投稿を一覧表示する$/', function($world) {
 	return [
-		new When('"' . Router::url(['controller' => 'posts', 'action' => 'index', 'user_account' => 'hoge']) . '" を表示している'),
+		new When('"' . Router::url(['controller' => 'posts', 'action' => 'index', 'user_account' => 'testuser']) . '" を表示している'),
 	];
 });
 
